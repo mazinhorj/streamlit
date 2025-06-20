@@ -1,6 +1,6 @@
 import streamlit as st
 import pandas as pd
-import numpy as np
+import time
 
 st.set_page_config(
     page_title="Análise de dados de vendas",
@@ -18,11 +18,17 @@ with st.sidebar:
     # Carregar os dados
     uploaded_file = st.file_uploader("Carregar arquivo CSV", type=["csv"])
 
+    if uploaded_file is not None:
+        # Exibir um spinner enquanto o arquivo é carregado
+        with st.spinner("Carregando arquivo..."):
+            time.sleep(2)    
+        st.toast('Arquivo carregado com sucesso!', icon="✅")
+
 if uploaded_file is not None:
     df = pd.read_csv(uploaded_file)
 
     with st.sidebar:
-        st.success("Arquivo carregado com sucesso!")
+        # st.success("Arquivo carregado com sucesso!")
 
         ditinct_estados = df['estado_cliente'].unique().tolist()
         estado_selecionado = st.selectbox("Selecione um estado", ditinct_estados)
@@ -38,10 +44,24 @@ if uploaded_file is not None:
     
     st.dataframe(df, use_container_width=True)
 
-    st.write(f"Total de vendas: R$ {df['valor_total'].sum():.2f}")
-    st.write(f"Número de vendas: {df.shape[0]}")
+    st.write(f"Vendedor selecionado: **{vendedor_selecionado}**")
     st.write(f"Estado selecionado: {estado_selecionado}")
-    st.write(f"Vendedor selecionado: {vendedor_selecionado}")
+    st.write(f"Número de vendas: {df.shape[0]}")
+    st.write(f"Total de vendas: R$ {df['valor_total'].sum():.2f}")
+    st.write(f"Ticket médio: R$ {df['valor_total'].mean():.2f}")
+    st.write(f"Maior venda: R$ {df['valor_total'].max():.2f}")
+    st.write(f"Menor venda: R$ {df['valor_total'].min():.2f}")
+
+    if df['valor_total'].sum() > 40000:
+        st.badge("★★★★★", color='blue')
+    elif df['valor_total'].sum() > 30000:
+        st.badge("★★★★☆", color='green')
+    elif df['valor_total'].sum() > 20000:
+        st.badge("★★★☆☆", color='orange')
+    elif df['valor_total'].sum() > 10000:
+        st.badge("★★☆☆☆", color='red')
+    elif df['valor_total'].sum() > 5000:
+        st.badge("★☆☆☆☆", color='violet')
 
     st.bar_chart(df, x='nome_cliente', y='valor_total', use_container_width=True)
 

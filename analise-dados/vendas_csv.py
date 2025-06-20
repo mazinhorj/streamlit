@@ -5,7 +5,7 @@ import faker
 
 # Configuração inicial
 fake = faker.Faker('pt_BR')
-random.seed(42)
+random.seed(50)
 total_vendas = 1000
 
 # Dados fixos para consistência
@@ -14,7 +14,7 @@ formas_pagamento = ['Cartão de Crédito', 'PIX', 'Boleto', 'Dinheiro', 'Cartão
 canais_venda = ['Loja Online', 'Loja Física', 'Marketplace', 'Redes Sociais']
 estados_brasil = ['SP', 'RJ', 'MG', 'RS', 'PR', 'SC', 'BA', 'DF']
 status_entrega = ['Entregue', 'Em Trânsito', 'Processando', 'Devolvido']
-vendedores = [{'id': i, 'nome': fake.name()} for i in range(1, 21)]
+vendedores = [{'id': i, 'nome': fake.name()} for i in range(1, 25)]
 
 # Gerar produtos fictícios
 produtos = []
