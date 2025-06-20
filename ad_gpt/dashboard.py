@@ -30,9 +30,6 @@ vendas_por_vendedor = df.groupby('nome_vendedor')['quantidade'].sum().reset_inde
 vendas_por_vendedor = vendas_por_vendedor.sort_values(by='quantidade', ascending=True)
 st.line_chart(vendas_por_vendedor.set_index('nome_vendedor'))  
 
-
-# openai.api_key = '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'
-
 client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
 
 completion = client.chat.completions.create(
